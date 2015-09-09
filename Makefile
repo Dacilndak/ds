@@ -7,6 +7,7 @@ TESTFILES=$(shell find $(TESTDIR) -name '*.cpp')
 OBJFILES=$(patsubst test/%.cpp,bin/%.o,$(TESTFILES))
 EXECS=$(patsubst test/%.cpp,bin/%,$(TESTFILES))
 TEST_TARGETS=$(patsubst bin/%,%,$(EXECS))
+PREV_BUILD=$(shell find ./.prev 2>/dev/null | xargs cat)
 
 .PHONY: Makefile all include src lib README.md bin test tests check-syntax
 
@@ -18,6 +19,7 @@ all:
 	@echo  - [target]: build and run specified target
 
 test: $(EXECS)
+	@echo $(EXECS) > ./.prev
 
 tests: test
 
@@ -30,17 +32,19 @@ bin/%: bin/%.o
 $(TEST_TARGETS):
 	$(eval OUTFILE=$(patsubst %,bin/%,$@) )
 	$(CXX) $(CXXFLAGS) $(patsubst %,test/%.cpp,$@) -o $(OUTFILE)
+	@echo $(OUTFILE) > ./.prev
 	@echo Running $(OUTFILE)
 	@$(OUTFILE)
 
 clean:
 	rm -f $(EXECS)
+	rm -f $(OBJFILES)
 	@clean $(INCDIR) $(TESTDIR)
 
-redo: clean all
+redo: clean $(PREV_BUILD)
 
 check-syntax:
 	$(CXX) $(CXXFLAGS) -Wall -Wextra -fsyntax-only $(CHK_SOURCES)
 
 dumpvars:
-	echo -e $(foreach var, ${DUMPVARS}, "\n$(var)=$($(var))")
+	@echo $(foreach var, ${DUMPVARS}, "\n$(var)=$($(var))")
