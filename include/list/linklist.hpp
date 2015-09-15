@@ -2,7 +2,7 @@
 #define _MPH_LINKLIST_H_
 #include <iostream>
 
-#include <node.hpp>
+#include "node.hpp"
 
 template <typename T>
 class LinkList {

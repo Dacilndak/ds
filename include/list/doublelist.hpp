@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include <node.hpp>
+#include "node.hpp"
 
 template <typename T>
 class DoubleList {
@@ -19,6 +19,7 @@ public:
   ~DoubleList();
   Node<T> * begin() const { return this->head; }
   Node<T> * end() const { return this->tail; }
+  T insert(int pos, T data) { return this->add(pos, data); }
   T add(int pos, T data);
   T remove(int pos);
   T prepend(T data);
