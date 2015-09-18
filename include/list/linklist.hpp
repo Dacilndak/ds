@@ -14,6 +14,7 @@ public:
   LinkList();
   LinkList(T data);
   LinkList(T * data, int len);
+  LinkList(LinkList<T> * dl);
   ~LinkList();
   Node<T> * begin() const { return head; }
   Node<T> * end() const { return tail; }
@@ -27,6 +28,13 @@ public:
   void clear();
   int size() const;
 };
+
+template <typename T>
+LinkList<T>::LinkList(LinkList<T> * dl) {
+  for (int i = 0; i < dl->size(); i++) {
+    this->append(dl->at(i));
+  }
+}
 
 template <typename T>
 Node<T> * LinkList<T>::walk(Node<T> * start, int pos) const {

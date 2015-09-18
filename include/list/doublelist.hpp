@@ -16,6 +16,7 @@ public:
   DoubleList();
   DoubleList(T data);
   DoubleList(T * data, int len);
+  DoubleList(DoubleList<T> * dl);
   ~DoubleList();
   Node<T> * begin() const { return this->head; }
   Node<T> * end() const { return this->tail; }
@@ -30,6 +31,13 @@ public:
   T set(int pos, T data);
   int size() const;
 };
+
+template <typename T>
+DoubleList<T>::DoubleList(DoubleList<T> * dl) {
+  for (int i = 0; i < dl->size(); i++) {
+    this->append(dl->at(i));
+  }
+}
 
 template <typename T>
 Node<T> * DoubleList<T>::fwalk(Node<T> * start, int dist) const {

@@ -19,14 +19,14 @@ public:
   const int size() const { return size; }
   int length() const { return contents.size() };
   bool is_empty() const { return this->length() == 0; }
-  bool is_full() const { return this->length() == this->size(); }
+  bool is_full() const { size == 0 ? return false : return this->length() == this->size(); }
   T peek() const { return contents.get(contents.size()); }
   T pop();
   bool push(T data);
 };
 
 template <typename T>
-T Queue::pop() {
+T Queue<T>::pop() {
   if (is_empty()) {
     return (T)(0);
   }
@@ -36,7 +36,7 @@ T Queue::pop() {
 }
 
 template <typename T>
-bool Queue::push(T data) {
+bool Queue<T>::push(T data) {
   if (is_full()) {
     return false;
   }
