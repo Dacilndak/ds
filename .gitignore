@@ -10,12 +10,4 @@ bin/*
 *flymake*
 .prev
 
-hw/**/CMakeFiles
-hw/**/CMakeCache.txt
-hw/**/cmake_install.cmake
-hw/**/Makefile
-hw/**/compile_commands.json
-hw/**/vanguard
-
-hw/01*/cpp_refresher
-hw/02*/linked_list
+hw/*
