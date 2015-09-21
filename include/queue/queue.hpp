@@ -12,7 +12,7 @@ public:
   Queue() : size(0) { };
   Queue(int s) : size(s) { };
   Queue(List<T> data) : size(data.size()) { };
-  Queue(Queue<T> q) : size(q.size()) { };
+  Queue(Queue<T> q) : size(q.size()); { };
   Queue(List<T> data, int s) : size(s > data.size() ? s : data.size()) { };
   Queue(Queue<T> data, int s) : size(s > data.length() ? s : data.size()) { };
   ~Queue() { };
