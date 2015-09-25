@@ -7,26 +7,26 @@
 #include <list.hpp>
 
 namespace hash_functions {
-  int knuth_div_hash(int k, int n) {
+  int knuth_div_hash(long k, int n) {
     return (k * (k + 3) ) % n;
   }
 
-  int mod_hash(int k, int n) {
+  int mod_hash(long k, int n) {
     return k % n;
   }
   
-  int mult_hash(int k, int n) {
+  int mult_hash(long k, int n) {
     float A = 0.5 * (sqrt(5) - 1);
     int s = floor(A * pow(2, 32));
     int x = k * s;
     return x >> (32 - 16);
   }
 
-  int knuth_mult_hash(int k, int n) {
+  int knuth_mult_hash(long k, int n) {
     return (k * 2654435761) >> (32 - (int)floor(log2(n)));
   }
 
-  int basic_hash(int k, int n) {
+  int basic_hash(long k, int n) {
     return knuth_mult_hash(k, n);
   }
 };
@@ -35,7 +35,7 @@ template <typename T>
 class HashTable {
 private:
   int blocks;
-  int (*hash_function)(int, int);
+  int (*hash_function)(long, int);
   Vector<List<T> > * contents;
 public:
   HashTable();
@@ -43,8 +43,11 @@ public:
   HashTable(int (*func)(int, int));
   HashTable(int (*func)(int, int), int n);
   ~HashTable();
-  int size() const;
+  int size() const { return blocks; }
   int block_length(int block) const { return contents->at(block).size(); }
+  int insert(T data);
+  List<T> * const get_block(int block);
+  T find(T data);
 };
 
 template <typename T> using Hash = HashTable<T>;
@@ -83,12 +86,22 @@ HashTable<T>::~HashTable() {
 }
 
 template <typename T>
-int HashTable<T>::size() const {
-  int count;
-  for (int i = 0; i < blocks; i++) {
-    count += this->block_size(i);
-  }
-  return count;
+int HashTable<T>::insert(T data) {
+  int k = hash_function((long)(data), size);
+  contents->at(k).append(data);
+  return k;
+}
+
+template <typename T>
+List<T> * const HashTable<T>::get_block(int block) {
+  return contents->at(block);
+}
+
+template <typename T>
+T HashTable<T>::find(T data) {
+  int k = hash_function((long)(data), size);
+  
+  return
 }
 
 #endif
